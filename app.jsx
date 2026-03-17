@@ -10,10 +10,25 @@ import {
 export default function App() {
   const [nossos, setNossos] = useState(0);
   const [eles, setEles] = useState(0);
+  const [vitoriasNos, setVitoriasNos] = useState(0);
+  const [vitoriasEles, setVitoriasEles] = useState(0);
 
   const addPontos = (time, pontos) => {
-    if (time === "nos") setNossos(nossos + pontos);
-    else setEles(eles + pontos);
+    if (time === "nos") {
+      const novo = nossos + pontos;
+      if (novo >= 12) {
+        setVitoriasNos(vitoriasNos + 1);
+        setNossos(0);
+        setEles(0);
+      } else setNossos(novo);
+    } else {
+      const novo = eles + pontos;
+      if (novo >= 12) {
+        setVitoriasEles(vitoriasEles + 1);
+        setNossos(0);
+        setEles(0);
+      } else setEles(novo);
+    }
   };
 
   const BotoesAposta = ({ time }) => (
@@ -48,6 +63,7 @@ export default function App() {
             <Text style={styles.btnTxt}>+</Text>
           </TouchableOpacity>
           <BotoesAposta time="nos" />
+          <Text style={styles.vitorias}>Vitorias: {vitoriasNos}</Text>
         </View>
 
         <View style={styles.divisor} />
@@ -62,6 +78,7 @@ export default function App() {
             <Text style={styles.btnTxt}>+</Text>
           </TouchableOpacity>
           <BotoesAposta time="eles" />
+          <Text style={styles.vitorias}>Vitorias: {vitoriasEles}</Text>
         </View>
       </View>
     </SafeAreaView>
@@ -111,6 +128,12 @@ const styles = StyleSheet.create({
   },
   txtAposta: { color: "#f1c40f", fontWeight: "bold", fontSize: 13 },
   txtApostaNum: { color: "#aaa", fontSize: 11 },
+  vitorias: {
+    color: "#2ecc71",
+    marginTop: 10,
+    fontSize: 14,
+    fontWeight: "bold",
+  },
   divisor: {
     width: 1,
     backgroundColor: "#444",
