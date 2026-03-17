@@ -3,110 +3,28 @@ import {
     SafeAreaView,
     StyleSheet,
     Text,
-    TouchableOpacity,
-    View,
+    TouchableOpacity
 } from "react-native";
 
 export default function App() {
-  const [nossos, setNossos] = useState(0);
-  const [eles, setEles] = useState(0);
-  const [vitoriasNos, setVitoriasNos] = useState(0);
-  const [vitoriasEles, setVitoriasEles] = useState(0);
-
-  const addPontos = (time, pontos) => {
-    if (time === "nos") {
-      const novo = nossos + pontos;
-      if (novo >= 12) {
-        setVitoriasNos(vitoriasNos + 1);
-        setNossos(0);
-        setEles(0);
-      } else setNossos(novo);
-    } else {
-      const novo = eles + pontos;
-      if (novo >= 12) {
-        setVitoriasEles(vitoriasEles + 1);
-        setNossos(0);
-        setEles(0);
-      } else setEles(novo);
-    }
-  };
-
-  const reiniciar = () => {
-    setNossos(0);
-    setEles(0);
-  };
-  const novoJogo = () => {
-    setNossos(0);
-    setEles(0);
-    setVitoriasNos(0);
-    setVitoriasEles(0);
-  };
-
-  const BotoesAposta = ({ time }) => (
-    <View style={styles.apostas}>
-      {[3, 6, 9, 12].map((p) => (
-        <TouchableOpacity
-          key={p}
-          style={styles.btnAposta}
-          onPress={() => addPontos(time, p)}
-        >
-          <Text style={styles.txtAposta}>
-            {p === 3 ? "Truco" : p === 6 ? "Seis" : p === 9 ? "Nove" : "Doze"}
-          </Text>
-          <Text style={styles.txtApostaNum}>+{p}</Text>
-        </TouchableOpacity>
-      ))}
-    </View>
-  );
+  const [pontos, setPontos] = useState(0);
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titulo}>Marcador</Text>
-
-      <View style={styles.placar}>
-        <View style={styles.time}>
-          <Text style={styles.nomeTime}>Nos</Text>
-          <Text style={styles.pontuacao}>{nossos}</Text>
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => addPontos("nos", 1)}
-          >
-            <Text style={styles.btnTxt}>+</Text>
-          </TouchableOpacity>
-          <BotoesAposta time="nos" />
-          <Text style={styles.vitorias}>Vitorias: {vitoriasNos}</Text>
-        </View>
-
-        <View style={styles.divisor} />
-
-        <View style={styles.time}>
-          <Text style={styles.nomeTime}>Eles</Text>
-          <Text style={styles.pontuacao}>{eles}</Text>
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => addPontos("eles", 1)}
-          >
-            <Text style={styles.btnTxt}>+</Text>
-          </TouchableOpacity>
-          <BotoesAposta time="eles" />
-          <Text style={styles.vitorias}>Vitorias: {vitoriasEles}</Text>
-        </View>
-      </View>
-
-      <View style={styles.controles}>
-        <TouchableOpacity
-          style={[styles.btnControle, { backgroundColor: "#e67e22" }]}
-          onPress={reiniciar}
-        >
-          <Text style={styles.btnControleTxt}>Reiniciar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.btnControle, { backgroundColor: "#e74c3c" }]}
-          onPress={novoJogo}
-        >
-          <Text style={styles.btnControleTxt}>Novo Jogo</Text>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.pontuacao}>{pontos}</Text>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => setPontos(pontos + 1)}
+      >
+        <Text style={styles.btnTxt}>+</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => setPontos(pontos - 1)}
+      >
+        <Text style={styles.btnTxt}>-</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -124,15 +42,12 @@ const styles = StyleSheet.create({
     color: "#f1c40f",
     marginBottom: 20,
   },
-  placar: { flexDirection: "row", alignItems: "flex-start" },
-  time: { alignItems: "center", padding: 10, flex: 1 },
-  nomeTime: {
-    fontSize: 22,
+  pontuacao: {
+    fontSize: 64,
     fontWeight: "bold",
     color: "#fff",
-    marginBottom: 8,
+    marginBottom: 20,
   },
-  pontuacao: { fontSize: 64, fontWeight: "bold", color: "#f1c40f" },
   btn: {
     backgroundColor: "#2ecc71",
     padding: 10,
@@ -142,36 +57,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btnTxt: { fontSize: 24, color: "#fff", fontWeight: "bold" },
-  apostas: { marginTop: 8, gap: 6 },
-  btnAposta: {
-    backgroundColor: "#16213e",
-    borderWidth: 1,
-    borderColor: "#f1c40f",
-    borderRadius: 8,
-    padding: 8,
-    alignItems: "center",
-    width: 90,
-  },
-  txtAposta: { color: "#f1c40f", fontWeight: "bold", fontSize: 13 },
-  txtApostaNum: { color: "#aaa", fontSize: 11 },
-  vitorias: {
-    color: "#2ecc71",
-    marginTop: 10,
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  divisor: {
-    width: 1,
-    backgroundColor: "#444",
-    alignSelf: "stretch",
-    marginHorizontal: 5,
-  },
-  controles: { flexDirection: "row", gap: 12, marginTop: 24 },
-  btnControle: {
-    padding: 12,
-    borderRadius: 10,
-    minWidth: 120,
-    alignItems: "center",
-  },
-  btnControleTxt: { color: "#fff", fontWeight: "bold", fontSize: 15 },
 });
