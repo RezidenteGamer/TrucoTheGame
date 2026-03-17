@@ -31,6 +31,17 @@ export default function App() {
     }
   };
 
+  const reiniciar = () => {
+    setNossos(0);
+    setEles(0);
+  };
+  const novoJogo = () => {
+    setNossos(0);
+    setEles(0);
+    setVitoriasNos(0);
+    setVitoriasEles(0);
+  };
+
   const BotoesAposta = ({ time }) => (
     <View style={styles.apostas}>
       {[3, 6, 9, 12].map((p) => (
@@ -80,6 +91,21 @@ export default function App() {
           <BotoesAposta time="eles" />
           <Text style={styles.vitorias}>Vitorias: {vitoriasEles}</Text>
         </View>
+      </View>
+
+      <View style={styles.controles}>
+        <TouchableOpacity
+          style={[styles.btnControle, { backgroundColor: "#e67e22" }]}
+          onPress={reiniciar}
+        >
+          <Text style={styles.btnControleTxt}>Reiniciar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.btnControle, { backgroundColor: "#e74c3c" }]}
+          onPress={novoJogo}
+        >
+          <Text style={styles.btnControleTxt}>Novo Jogo</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -140,4 +166,12 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     marginHorizontal: 5,
   },
+  controles: { flexDirection: "row", gap: 12, marginTop: 24 },
+  btnControle: {
+    padding: 12,
+    borderRadius: 10,
+    minWidth: 120,
+    alignItems: "center",
+  },
+  btnControleTxt: { color: "#fff", fontWeight: "bold", fontSize: 15 },
 });
