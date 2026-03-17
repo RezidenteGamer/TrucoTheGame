@@ -11,6 +11,28 @@ export default function App() {
   const [nossos, setNossos] = useState(0);
   const [eles, setEles] = useState(0);
 
+  const addPontos = (time, pontos) => {
+    if (time === "nos") setNossos(nossos + pontos);
+    else setEles(eles + pontos);
+  };
+
+  const BotoesAposta = ({ time }) => (
+    <View style={styles.apostas}>
+      {[3, 6, 9, 12].map((p) => (
+        <TouchableOpacity
+          key={p}
+          style={styles.btnAposta}
+          onPress={() => addPontos(time, p)}
+        >
+          <Text style={styles.txtAposta}>
+            {p === 3 ? "Truco" : p === 6 ? "Seis" : p === 9 ? "Nove" : "Doze"}
+          </Text>
+          <Text style={styles.txtApostaNum}>+{p}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titulo}>Marcador</Text>
@@ -21,10 +43,11 @@ export default function App() {
           <Text style={styles.pontuacao}>{nossos}</Text>
           <TouchableOpacity
             style={styles.btn}
-            onPress={() => setNossos(nossos + 1)}
+            onPress={() => addPontos("nos", 1)}
           >
             <Text style={styles.btnTxt}>+</Text>
           </TouchableOpacity>
+          <BotoesAposta time="nos" />
         </View>
 
         <View style={styles.divisor} />
@@ -34,10 +57,11 @@ export default function App() {
           <Text style={styles.pontuacao}>{eles}</Text>
           <TouchableOpacity
             style={styles.btn}
-            onPress={() => setEles(eles + 1)}
+            onPress={() => addPontos("eles", 1)}
           >
             <Text style={styles.btnTxt}>+</Text>
           </TouchableOpacity>
+          <BotoesAposta time="eles" />
         </View>
       </View>
     </SafeAreaView>
@@ -75,6 +99,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btnTxt: { fontSize: 24, color: "#fff", fontWeight: "bold" },
+  apostas: { marginTop: 8, gap: 6 },
+  btnAposta: {
+    backgroundColor: "#16213e",
+    borderWidth: 1,
+    borderColor: "#f1c40f",
+    borderRadius: 8,
+    padding: 8,
+    alignItems: "center",
+    width: 90,
+  },
+  txtAposta: { color: "#f1c40f", fontWeight: "bold", fontSize: 13 },
+  txtApostaNum: { color: "#aaa", fontSize: 11 },
   divisor: {
     width: 1,
     backgroundColor: "#444",
